@@ -1,5 +1,6 @@
 package io.github.lourier.toolkit.common.crypto;
 
+import lombok.Data;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.BadPaddingException;
@@ -33,6 +34,26 @@ public class RSAUtil {
     public static final String PUBLIC_KEY = "publicKey";
     public static final String PRIVATE_KEY = "privateKey";
 
+    private static final String DEFAULT_BASE64_PUBLIC_KEY;
+    private static final String DEFAULT_BASE64_PRIVATE_KEY;
+
+    static {
+        RsaKeyPair keyPair = getKeyPair();
+        DEFAULT_BASE64_PUBLIC_KEY = keyPair.getBase64PublicKey();
+        DEFAULT_BASE64_PRIVATE_KEY = keyPair.getBase64PrivateKey();
+    }
+
+    @Data
+    public static final class RsaKeyPair {
+        private String base64PublicKey;
+        private String base64PrivateKey;
+
+        public RsaKeyPair(String base64PublicKey, String base64PrivateKey) {
+            this.base64PublicKey = base64PublicKey;
+            this.base64PrivateKey = base64PrivateKey;
+        }
+    }
+
 
     public static Map<String, Object> initKey() {
         try {
@@ -56,20 +77,26 @@ public class RSAUtil {
         return key.getEncoded();
     }
 
-    public static String base64PublicKey(Map<String, Object> map) {
-        byte[] bytes = getPublicKey(map);
-        return Base64.encodeBase64String(bytes);
-    }
-
     public static byte[] getPrivateKey(Map<String, Object> map) {
         Key key = (Key) map.get(PRIVATE_KEY);
         return key.getEncoded();
     }
 
-    public static String base64PrivateKey(Map<String, Object> map) {
-        byte[] bytes = getPrivateKey(map);
-        return Base64.encodeBase64String(bytes);
+    public static String getDefaultBase64PublicKey() {
+        return DEFAULT_BASE64_PUBLIC_KEY;
     }
+
+    public static String getDefaultBase64PrivateKey() {
+        return DEFAULT_BASE64_PRIVATE_KEY;
+    }
+
+    public static RsaKeyPair getKeyPair() {
+        Map<String, Object> map = initKey();
+        byte[] publicKey = getPublicKey(map);
+        byte[] privateKey = getPrivateKey(map);
+        return new RsaKeyPair(Base64.encodeBase64String(publicKey), Base64.encodeBase64String(privateKey));
+    }
+
 
     public static byte[] decryptByPrivateKey(byte[] data, byte[] key) {
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(key);
