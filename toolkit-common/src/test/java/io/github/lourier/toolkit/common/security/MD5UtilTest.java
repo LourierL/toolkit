@@ -42,7 +42,6 @@ public class MD5UtilTest {
         String input = "helloworld";
         String encrypt = MD5Util.encrypt2Base64(input, a -> a + "salt");
         Assertions.assertNotNull(encrypt);
-//        Assertions.assertEquals(32, encrypt.length(), "must be 32 hex length");
     }
 
 }

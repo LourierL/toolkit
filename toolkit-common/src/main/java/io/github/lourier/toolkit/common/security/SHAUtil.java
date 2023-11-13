@@ -8,7 +8,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.function.UnaryOperator;
 
 /**
- * @Description: SHA-512 算法实现
+ * @Description: SHA 系列算法实现
+ * SHA-1: 160bit; SHA-256bit: 256; SHA-512: 512bit
  * @Date: 2023/11/10 15:39
  * @Author: Lourier
  */
