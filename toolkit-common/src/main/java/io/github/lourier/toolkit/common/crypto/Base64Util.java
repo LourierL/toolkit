@@ -1,4 +1,4 @@
-package io.github.lourier.toolkit.common.security;
+package io.github.lourier.toolkit.common.crypto;
 
 import io.github.lourier.toolkit.common.util.ImageUtil;
 import org.apache.commons.codec.binary.Base64;

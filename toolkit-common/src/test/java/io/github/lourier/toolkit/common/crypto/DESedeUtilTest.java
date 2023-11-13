@@ -1,6 +1,5 @@
-package io.github.lourier.toolkit.common.security;
+package io.github.lourier.toolkit.common.crypto;
 
-import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

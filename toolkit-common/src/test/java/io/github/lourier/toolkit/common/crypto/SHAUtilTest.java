@@ -1,4 +1,4 @@
-package io.github.lourier.toolkit.common.security;
+package io.github.lourier.toolkit.common.crypto;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
