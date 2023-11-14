@@ -2,6 +2,14 @@ package io.github.lourier.toolkit.common.util;
 
 import org.apache.commons.codec.binary.Hex;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.function.Function;
+
 /**
  * @Description: 图片工具类
  * @Date: 2023/11/13 14:39
@@ -45,6 +53,30 @@ public final class ImageUtil {
             return ImageType.WEBP;
         }
         return null;
+    }
+
+    // 图片处理，并转为其他格式输出
+    public static void pic2OtherType(InputStream is, OutputStream os, ImageType type, Function<BufferedImage, BufferedImage> function) {
+        try {
+            BufferedImage source = ImageIO.read(is);
+            BufferedImage dest = function.apply(source);
+            ImageIO.write(dest, type.name(), os);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // 图片处理，并转为其他格式输出
+    public static byte[] pic2OtherType(InputStream is, ImageType type, Function<BufferedImage, BufferedImage> function) {
+        try {
+            BufferedImage source = ImageIO.read(is);
+            BufferedImage dest = function.apply(source);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(dest, type.name(), baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
