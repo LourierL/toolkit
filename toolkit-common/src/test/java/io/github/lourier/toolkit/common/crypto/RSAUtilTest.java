@@ -1,5 +1,6 @@
 package io.github.lourier.toolkit.common.crypto;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +34,20 @@ public class RSAUtilTest {
         byte[] encrypt = RSAUtil.encryptByPrivateKey(input.getBytes(), privateKey);
         byte[] decrypt = RSAUtil.decryptByPublicKey(encrypt, publicKey);
         Assertions.assertEquals(input, new String(decrypt));
+    }
+
+    @Test
+    public void testDefaultKey() {
+        String publicKey = RSAUtil.getDefaultBase64PublicKey();
+        String privateKey = RSAUtil.getDefaultBase64PrivateKey();
+        String input = "helloworld";
+        byte[] encryptPublic = RSAUtil.encryptByPublicKey(input.getBytes(), Base64.decodeBase64(publicKey));
+        byte[] decryptPublic = RSAUtil.decryptByPrivateKey(encryptPublic, Base64.decodeBase64(privateKey));
+        Assertions.assertEquals(input, new String(decryptPublic));
+
+        byte[] encryptPrivate = RSAUtil.encryptByPrivateKey(input.getBytes(), Base64.decodeBase64(privateKey));
+        byte[] decryptPrivate = RSAUtil.decryptByPublicKey(encryptPrivate, Base64.decodeBase64(publicKey));
+        Assertions.assertEquals(input, new String(decryptPrivate));
     }
 
 }

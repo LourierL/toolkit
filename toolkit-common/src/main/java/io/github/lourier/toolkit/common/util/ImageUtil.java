@@ -11,7 +11,7 @@ import java.io.OutputStream;
 import java.util.function.Function;
 
 /**
- * @Description: 图片工具类
+ * @Description: 图片工具类 用 Thumbnails 改造，单独拉一个模块
  * @Date: 2023/11/13 14:39
  * @Author: Lourier
  */
