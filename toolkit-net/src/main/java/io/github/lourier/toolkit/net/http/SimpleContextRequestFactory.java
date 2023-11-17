@@ -26,7 +26,7 @@ public class SimpleContextRequestFactory extends SimpleClientHttpRequestFactory 
         if (socketFactory != null && connection instanceof HttpsURLConnection) {
             ((HttpsURLConnection) connection).setSSLSocketFactory(socketFactory);
         }
-        if ((requestConfig = HttpContextHolder.get(SimpleRequestConfig.class)) != null) {
+        if ((requestConfig = HttpContextHolder.get()) != null) {
             connection.setConnectTimeout(requestConfig.getConnectTimeout());
             connection.setReadTimeout(requestConfig.getReadTimeout());
             boolean mayWrite =

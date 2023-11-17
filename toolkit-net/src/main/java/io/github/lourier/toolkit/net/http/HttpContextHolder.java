@@ -7,18 +7,14 @@ package io.github.lourier.toolkit.net.http;
  */
 public class HttpContextHolder {
 
-    private static final ThreadLocal<Object> THREAD_LOCAL = new ThreadLocal<>();
+    private static final ThreadLocal<SimpleRequestConfig> THREAD_LOCAL = new ThreadLocal<>();
 
-    public static void bind(Object source) {
+    public static void bind(SimpleRequestConfig source) {
         THREAD_LOCAL.set(source);
     }
 
-    public static <T> T get(Class<T> clasz) {
-        Object object = THREAD_LOCAL.get();
-        if (clasz.isInstance(object)) {
-            return clasz.cast(object);
-        }
-        return null;
+    public static SimpleRequestConfig get() {
+        return THREAD_LOCAL.get();
     }
 
     public static void remove() {

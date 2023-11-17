@@ -11,7 +11,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.ssl.SSLContexts;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -62,12 +61,15 @@ public class ClientHttpRequestFactoryUtil {
             HttpClient httpClient = HttpClientBuilder.create().setSSLSocketFactory(sslFactory).build();
             requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
         }
-        requestFactory.setReadTimeout(5000); // 默认超时读取5s
-        requestFactory.setConnectTimeout(10000); // 默认连接超时10s
         requestFactory.setHttpContextFactory(((httpMethod, uri) -> {
-            RequestConfig requestConfig = HttpContextHolder.get(RequestConfig.class);
-            if (requestConfig != null) {
+            SimpleRequestConfig simpleRequestConfig = HttpContextHolder.get();
+            if (simpleRequestConfig != null) {
                 HttpClientContext httpClientContext = HttpClientContext.create();
+                RequestConfig requestConfig = RequestConfig
+                        .custom()
+                        .setSocketTimeout(simpleRequestConfig.getReadTimeout())
+                        .setConnectTimeout(simpleRequestConfig.getConnectTimeout())
+                        .build();
                 httpClientContext.setAttribute(HttpClientContext.REQUEST_CONFIG, requestConfig);
                 return httpClientContext;
             }

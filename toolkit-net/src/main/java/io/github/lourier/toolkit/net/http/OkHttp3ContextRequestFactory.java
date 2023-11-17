@@ -22,7 +22,7 @@ public class OkHttp3ContextRequestFactory extends OkHttp3ClientHttpRequestFactor
     @Override
     public ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod) {
         SimpleRequestConfig requestConfig;
-        if ((requestConfig = HttpContextHolder.get(SimpleRequestConfig.class)) != null) {
+        if ((requestConfig = HttpContextHolder.get()) != null) {
             setReadTimeout(requestConfig.getReadTimeout());
             setWriteTimeout(requestConfig.getReadTimeout());
             setConnectTimeout(requestConfig.getConnectTimeout());
@@ -33,7 +33,7 @@ public class OkHttp3ContextRequestFactory extends OkHttp3ClientHttpRequestFactor
     @Override
     public AsyncClientHttpRequest createAsyncRequest(URI uri, HttpMethod httpMethod) {
         SimpleRequestConfig requestConfig;
-        if ((requestConfig = HttpContextHolder.get(SimpleRequestConfig.class)) != null) {
+        if ((requestConfig = HttpContextHolder.get()) != null) {
             setReadTimeout(requestConfig.getReadTimeout());
             setWriteTimeout(requestConfig.getReadTimeout());
             setConnectTimeout(requestConfig.getConnectTimeout());
